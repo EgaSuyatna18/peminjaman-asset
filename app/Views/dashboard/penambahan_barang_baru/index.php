@@ -1,5 +1,7 @@
 <?= $this->extend('layouts/dashboardMaster') ?>
 <?= $this->section('main') ?>
+    <!-- tomselect -->
+    <link rel="stylesheet" href="/tomselect/tom-select.bootstrap4.min.css">
 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex justify-content-between">
@@ -43,6 +45,8 @@
                                             <td><a href="<?= $penambahan_barang_baru->kak ?>" target="_blank">Lihat Data</a></td>
                                             <td><?= $penambahan_barang_baru->status ?></td>
                                             <td>
+                                              <a href="/penambahan_barang_baru/<?= $penambahan_barang_baru->penambahan_barang_baru_id ?>/diterima" class="btn btn-success"><i class="fa fa-check"></i></a>
+                                              <a href="/penambahan_barang_baru/<?= $penambahan_barang_baru->penambahan_barang_baru_id ?>/ditolak" class="btn btn-danger"><i class="fa fa-times"></i></a>
                                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ubahModal"
                                                     onclick="setData('<?= $penambahan_barang_baru->penambahan_barang_baru_id ?>', '<?= $penambahan_barang_baru->tim_id ?>', '<?= $penambahan_barang_baru->nama_pengusul ?>')">
                                                     <i class="fa fa-edit"></i>
@@ -76,7 +80,7 @@
         <form action="/penambahan_barang_baru" method="post" id="tambahForm" enctype="multipart/form-data">
             <div class="mb-3">
                 <label>Tim Kerja</label>
-                <select name="tim_id" class="form-control">
+                <select name="tim_id" class="form-control tomSelectTambah">
                   <option value="">--- Pilih Tim ---</option>
                   <?php foreach($tims as $tim) : ?>
                     <option value="<?= $tim->tim_id ?>"><?= $tim->nama_tim ?></option>
@@ -114,7 +118,7 @@
             <input type="hidden" name="_method" value="PUT">
             <div class="mb-3">
                 <label>Tim Kerja</label>
-                <select name="tim_id" class="form-control" id="ubahTimID">
+                <select name="tim_id" class="form-control tomSelectUbah" id="ubahTimID">
                   <option value="">--- Pilih Tim ---</option>
                   <?php foreach($tims as $tim) : ?>
                     <option value="<?= $tim->tim_id ?>"><?= $tim->nama_tim ?></option>
@@ -139,11 +143,30 @@
   </div>
 </div>
 
+<!-- tomselect -->
+<script src="/tomselect/tom-select.complete.min.js"></script>
+
 <script>
     function setData(penambahanBarangBaruID, timID, namaPengusul) {
         ubahForm.action = '/penambahan_barang_baru/' + penambahanBarangBaruID;
-        ubahTimID.value = timID;
+        ubahTimID.setValue([timID]);
         ubahNamaPengusul.value = namaPengusul;
-  }
+    }
+
+    new TomSelect(".tomSelectTambah",{
+      create: true,
+      sortField: {
+        field: "text",
+        direction: "asc"
+      }
+    });
+
+    let ubahTimID = new TomSelect(".tomSelectUbah",{
+      create: true,
+      sortField: {
+        field: "text",
+        direction: "asc"
+      }
+    });
 </script>
 <?= $this->endSection() ?>

@@ -14,6 +14,7 @@ class Tim extends BaseController
     }
 
     function index() {
+        if(!self::isLoggedIn()) return redirect()->to('/')->with('error', 'Anda Belum Login!');
         $title = 'Tim';
         $tims = $this->tim->get()->getResult();
         return view('dashboard/tim/index', compact('title', 'tims'));

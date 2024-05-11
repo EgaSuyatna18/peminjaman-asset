@@ -16,6 +16,7 @@ class PenambahanBarangBaru extends BaseController
     }
 
     function index() {
+        if(!self::isLoggedIn()) return redirect()->to('/')->with('error', 'Anda Belum Login!');
         $title = 'Penambahan Barang Baru';
         $penambahan_barang_barus = $this->penambahan_barang_baru->join('tim', 'tim.tim_id = penambahan_barang_baru.tim_id')->get()->getResult();
         $tims = $this->tim->get()->getResult();
@@ -35,7 +36,7 @@ class PenambahanBarangBaru extends BaseController
         $validation = \Config\Services::validation();
         
         if(!$this->validateData($data, $rules)) {
-            session()->setFlashdata('error', $validation->getErrors()['kak']);
+            session()->setFlashdata('error', 'Gagal Menambah Data! Cek Input!');
             return redirect()->to('/penambahan_barang_baru');
         }
         
@@ -43,9 +44,9 @@ class PenambahanBarangBaru extends BaseController
 
         if ($kak->isValid() && !$kak->hasMoved()) {
             $newName = $kak->getRandomName();
-            $kak->move('uploads/', $newName);
+            $kak->move('uploads/kak/', $newName);
 
-            $validData['kak'] = ['kak' => 'uploads/' . $newName];
+            $validData['kak'] = ['kak' => 'uploads/kak/' . $newName];
 
             if(!$this->penambahan_barang_baru->tambah($validData)) {
                 session()->setFlashdata('error', 'Gagal Menambah Data! Cek Input!');
@@ -90,7 +91,7 @@ class PenambahanBarangBaru extends BaseController
         $validation = \Config\Services::validation();
         
         if(!$this->validateData($data, $rules)) {
-            session()->setFlashdata('error', $validation->getErrors()['kak']);
+            session()->setFlashdata('error', 'Gagal Mengubah Data! Cek Input!');
             return redirect()->to('/penambahan_barang_baru');
         }
         
@@ -101,9 +102,9 @@ class PenambahanBarangBaru extends BaseController
             unlink($img);
 
             $newName = $kak->getRandomName();
-            $kak->move('uploads/', $newName);
+            $kak->move('uploads/kak/', $newName);
 
-            $validData['kak'] = ['kak' => 'uploads/' . $newName];
+            $validData['kak'] = ['kak' => 'uploads/kak/' . $newName];
         }
 
         if(!$this->penambahan_barang_baru->ubah($penambahan_barang_baru_id, $validData)) {
@@ -117,5 +118,27 @@ class PenambahanBarangBaru extends BaseController
 
     function isLoggedIn() {
         return session()->has('userdata');
+    }
+
+    function diterima($penambahan_barang_baru_id) {
+        if(!self::isLoggedIn()) return redirect()->to('/')->with('error', 'Anda Belum Login!');
+        if(!$this->penambahan_barang_baru->diterima($penambahan_barang_baru_id)) {
+            session()->setFlashdata('error', 'Gagal Mengubah Status Data! Cek Input!');
+            return redirect()->to('/penambahan_barang_baru');
+        }
+        
+        session()->setFlashdata('success', 'Berhasil Menerima Data.');
+        return redirect()->to('/penambahan_barang_baru');
+    }
+
+    function ditolak($penambahan_barang_baru_id) {
+        if(!self::isLoggedIn()) return redirect()->to('/')->with('error', 'Anda Belum Login!');
+        if(!$this->penambahan_barang_baru->ditolak($penambahan_barang_baru_id)) {
+            session()->setFlashdata('error', 'Gagal Mengubah Status Data! Cek Input!');
+            return redirect()->to('/penambahan_barang_baru');
+        }
+        
+        session()->setFlashdata('success', 'Berhasil Menolak Data.');
+        return redirect()->to('/penambahan_barang_baru');
     }
 }

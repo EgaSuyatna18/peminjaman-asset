@@ -22,8 +22,6 @@
 
     <!-- datatables -->
     <link href="/datatables/datatables.min.css" rel="stylesheet">
-
-
 </head>
 
 <body id="page-top">
@@ -90,6 +88,18 @@
                     <span>Penambahan Barang Baru</span></a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="/peminjaman_barang">
+                    <i class="fas fa-fw fa-stamp"></i>
+                    <span>Peminjaman Barang</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/pengembalian_barang">
+                    <i class="fas fa-fw fa-stamp"></i>
+                    <span>Pengembalian Barang</span></a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -131,6 +141,8 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
+                                <p class="text-center"><?= session()->get('userdata')->role ?></p>
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
@@ -210,8 +222,8 @@
     
     <!-- datatables -->
     <script src="/datatables/datatables.min.js"></script>
-    <script src="/datatables/datatables-demo.js"></script>
-
+    
+    <script src="/script.js"></script>
     <?= $this->include('layouts/toast') ?>
 
 </body>

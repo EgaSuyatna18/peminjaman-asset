@@ -26,4 +26,15 @@ $routes->delete('/tim/(:num)', 'Tim::destroy/$1');
 $routes->get('/penambahan_barang_baru', 'PenambahanBarangBaru::index');
 $routes->post('/penambahan_barang_baru', 'PenambahanBarangBaru::store');
 $routes->put('/penambahan_barang_baru/(:num)', 'PenambahanBarangBaru::update/$1');
-$routes->delete('/penambahan_barang_baru/(:num)', 'PenambahanBarangBaru::destroy/$1');
+$routes->get('/penambahan_barang_baru/(:num)/diterima', 'PenambahanBarangBaru::diterima/$1');
+$routes->get('/penambahan_barang_baru/(:num)/ditolak', 'PenambahanBarangBaru::ditolak/$1');
+
+$routes->get('/peminjaman_barang', 'PeminjamanBarang::index');
+$routes->post('/peminjaman_barang', 'PeminjamanBarang::store');
+$routes->put('/peminjaman_barang/(:num)', 'PeminjamanBarang::update/$1');
+$routes->delete('/peminjaman_barang/(:num)', 'PeminjamanBarang::destroy/$1');
+
+$routes->get('/pengembalian_barang', 'PengembalianBarang::index');
+$routes->post('/pengembalian_barang', 'PengembalianBarang::store');
+$routes->put('/pengembalian_barang/(:num)', 'PengembalianBarang::update/$1');
+$routes->delete('/pengembalian_barang/(:num)', 'PengembalianBarang::destroy/$1');

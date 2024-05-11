@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
-use CodeIgniter\Database\Exceptions\DatabaseException;
 
-class PenambahanBarangBaruModel extends Model
+class PengembalianBarangModel extends Model
 {
-    protected $table            = 'penambahan_barang_baru';
-    protected $primaryKey       = 'penambahan_barang_baru_id';
+    protected $table            = 'pengembalian_barang';
+    protected $primaryKey       = 'pengembalian_barang_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
@@ -22,9 +21,9 @@ class PenambahanBarangBaruModel extends Model
     protected array $castHandlers = [];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
+    protected $createdField  = 'tanggal_kembali';
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
 
@@ -47,7 +46,7 @@ class PenambahanBarangBaruModel extends Model
 
     function tambah($data) {
         try {
-            $builder = $this->db->table('penambahan_barang_baru');
+            $builder = $this->db->table('pengembalian_barang');
             $builder->set($data);
             return $builder->insert();
         } catch (DatabaseException $e) {
@@ -55,43 +54,21 @@ class PenambahanBarangBaruModel extends Model
         }
     }
 
-    function hapus($penambahan_barang_baru_id) {
+    function hapus($pengembalian_barang_id) {
         try {
-            $builder = $this->db->table('penambahan_barang_baru');
-            $builder->where('penambahan_barang_baru_id', $penambahan_barang_baru_id);
+            $builder = $this->db->table('pengembalian_barang');
+            $builder->where('pengembalian_barang_id', $pengembalian_barang_id);
             return $builder->delete();
         } catch (DatabaseException $e) {
             return false;
         }
     }
 
-    function ubah($penambahan_barang_baru_id, $data) {
+    function ubah($pengembalian_barang_id, $data) {
         try {
-            $builder = $this->db->table('penambahan_barang_baru');
+            $builder = $this->db->table('pengembalian_barang');
             $builder->set($data);
-            $builder->where('penambahan_barang_baru_id', $penambahan_barang_baru_id);
-            return $builder->update();
-        } catch (DatabaseException $e) {
-            return false;
-        }
-    }
-
-    function diterima($penambahan_barang_baru_id) {
-        try {
-            $builder = $this->db->table('penambahan_barang_baru');
-            $builder->set(['status' => 'Diterima']);
-            $builder->where('penambahan_barang_baru_id', $penambahan_barang_baru_id);
-            return $builder->update();
-        } catch (DatabaseException $e) {
-            return false;
-        }
-    }
-
-    function ditolak($penambahan_barang_baru_id) {
-        try {
-            $builder = $this->db->table('penambahan_barang_baru');
-            $builder->set(['status' => 'Ditolak']);
-            $builder->where('penambahan_barang_baru_id', $penambahan_barang_baru_id);
+            $builder->where('pengembalian_barang_id', $pengembalian_barang_id);
             return $builder->update();
         } catch (DatabaseException $e) {
             return false;

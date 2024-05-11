@@ -15,6 +15,7 @@ class Supplier extends BaseController
     }
 
     function index() {
+        if(!self::isLoggedIn()) return redirect()->to('/')->with('error', 'Anda Belum Login!');
         $title = 'Supplier';
         $suppliers = $this->supplier->get()->getResult();
         return view('dashboard/supplier/index', compact('title', 'suppliers'));
