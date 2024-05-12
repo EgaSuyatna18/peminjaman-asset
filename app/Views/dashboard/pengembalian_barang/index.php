@@ -6,9 +6,11 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex justify-content-between">
                         <h1 class="m-0 font-weight-bold text-primary">Data Table <?= $title ?></h1>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#tambahModal">
-                            <i class="fa fa-plus"></i>
-                        </button>
+                        <?php if(session()->get('userdata')->role != 'Ketua Bagian Umum' && session()->get('userdata')->role != 'Kepala PSDMBP') : ?>
+                          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#tambahModal">
+                              <i class="fa fa-plus"></i>
+                          </button>
+                        <?php endif; ?>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -54,14 +56,18 @@
                                             <td><?= $pengembalian->penanggung_jawab_pengembalian ?></td>
                                             <td><?= $pengembalian->jumlah ?></td>
                                             <td>
-                                                <button type="button" class="btn btn-warning mb-2" data-toggle="modal" data-target="#ubahModal"
-                                                    onclick="setData('<?= $pengembalian->pengembalian_barang_id ?>', '<?= $pengembalian->kondisi_barang_kembali ?>', '<?= $pengembalian->tanggal_kembali ?>', '<?= $pengembalian->lokasi ?>', '<?= $pengembalian->penanggung_jawab_pengembalian ?>')">
-                                                    <i class="fa fa-edit"></i>
-                                                </button>
-                                                <form action="/pengembalian_barang/<?= $pengembalian->pengembalian_barang_id ?>" method="post" class="d-inline">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Hapus Data?')"><i class="fa fa-trash"></i></button>
-                                                </form>
+                                                <?php if(session()->get('userdata')->role == 'Ketua Bagian Umum' || session()->get('userdata')->role == 'Kepala PSDMBP') : ?>
+                                                  <p class="text-muted">Aksi Tidak Mendapat Izin</p>
+                                                <?php else : ?>
+                                                  <button type="button" class="btn btn-warning mb-2" data-toggle="modal" data-target="#ubahModal"
+                                                      onclick="setData('<?= $pengembalian->pengembalian_barang_id ?>', '<?= $pengembalian->kondisi_barang_kembali ?>', '<?= $pengembalian->tanggal_kembali ?>', '<?= $pengembalian->lokasi ?>', '<?= $pengembalian->penanggung_jawab_pengembalian ?>')">
+                                                      <i class="fa fa-edit"></i>
+                                                  </button>
+                                                  <form action="/pengembalian_barang/<?= $pengembalian->pengembalian_barang_id ?>" method="post" class="d-inline">
+                                                      <input type="hidden" name="_method" value="DELETE">
+                                                      <button type="submit" class="btn btn-danger" onclick="return confirm('Hapus Data?')"><i class="fa fa-trash"></i></button>
+                                                  </form>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach ?>

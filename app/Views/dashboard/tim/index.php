@@ -4,9 +4,11 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex justify-content-between">
                         <h1 class="m-0 font-weight-bold text-primary">Data Table <?= $title ?></h1>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#tambahModal">
-                            <i class="fa fa-plus"></i>
-                        </button>
+                        <?php if(session()->get('userdata')->role != 'Ketua Bagian Umum' && session()->get('userdata')->role != 'Kepala PSDMBP') : ?>
+                          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#tambahModal">
+                              <i class="fa fa-plus"></i>
+                          </button>
+                        <?php endif; ?>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -32,7 +34,10 @@
                                     </tr>
                                 </tfoot>
                                 <tbody>
-                                    <?php foreach($tims as $tim) : $no = 1;?>
+                                    <?php 
+                                      $no = 1;
+                                      foreach($tims as $tim) : 
+                                    ?>
                                         <tr>
                                             <td><?= $no++ ?></td>
                                             <td><?= $tim->nama_tim ?></td>
@@ -40,14 +45,18 @@
                                             <td><?= $tim->gender ?></td>
                                             <td><?= $tim->telepon ?></td>
                                             <td>
-                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ubahModal"
-                                                    onclick="setData('<?= $tim->tim_id ?>', '<?= $tim->nama_tim ?>', '<?= $tim->nip ?>', '<?= $tim->gender ?>', '<?= $tim->telepon ?>')">
-                                                    <i class="fa fa-edit"></i>
-                                                </button>
-                                                <form action="/tim/<?= $tim->tim_id ?>" method="post" class="d-inline">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Hapus Data?')"><i class="fa fa-trash"></i></button>
-                                                </form>
+                                                <?php if(session()->get('userdata')->role == 'Ketua Bagian Umum' || session()->get('userdata')->role == 'Kepala PSDMBP') : ?>
+                                                  <p class="text-muted">Aksi Tidak Mendapat Izin</p>
+                                                <?php else : ?>
+                                                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ubahModal"
+                                                      onclick="setData('<?= $tim->tim_id ?>', '<?= $tim->nama_tim ?>', '<?= $tim->nip ?>', '<?= $tim->gender ?>', '<?= $tim->telepon ?>')">
+                                                      <i class="fa fa-edit"></i>
+                                                  </button>
+                                                  <form action="/tim/<?= $tim->tim_id ?>" method="post" class="d-inline">
+                                                      <input type="hidden" name="_method" value="DELETE">
+                                                      <button type="submit" class="btn btn-danger" onclick="return confirm('Hapus Data?')"><i class="fa fa-trash"></i></button>
+                                                  </form>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach ?>

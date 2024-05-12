@@ -57,48 +57,67 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Master
-            </div>
+            <?php if(session()->get('userdata')->role == 'Petugas BMN' || session()->get('userdata')->role == 'Ketua Bagian Umum' || session()->get('userdata')->role == 'Kepala PSDMBP') : ?>
+                <div class="sidebar-heading">
+                    Master
+                </div>
 
-            <li class="nav-item">
-                <a class="nav-link" href="/supplier">
-                    <i class="fas fa-fw fa-id-badge"></i>
-                    <span>Supplier</span></a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/supplier">
+                        <i class="fas fa-fw fa-id-badge"></i>
+                        <span>Supplier</span></a>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="/tim">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Tim</span></a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tim">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Tim</span></a>
+                </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+                <li class="nav-item">
+                    <a class="nav-link" href="/barang">
+                        <i class="fas fa-fw fa-boxes"></i>
+                        <span>Barang</span></a>
+                </li>
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Transaksi
-            </div>
+                <!-- Divider -->
+                <hr class="sidebar-divider">
 
-            <li class="nav-item">
-                <a class="nav-link" href="/penambahan_barang_baru">
-                    <i class="fas fa-fw fa-stamp"></i>
-                    <span>Penambahan Barang Baru</span></a>
-            </li>
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Transaksi
+                </div>
 
-            <li class="nav-item">
-                <a class="nav-link" href="/peminjaman_barang">
-                    <i class="fas fa-fw fa-stamp"></i>
-                    <span>Peminjaman Barang</span></a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/penambahan_barang_baru">
+                        <i class="fas fa-fw fa-stamp"></i>
+                        <span>Penambahan Barang Baru</span></a>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="/pengembalian_barang">
-                    <i class="fas fa-fw fa-stamp"></i>
-                    <span>Pengembalian Barang</span></a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/peminjaman_barang">
+                        <i class="fas fa-fw fa-stamp"></i>
+                        <span>Peminjaman Barang</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/pengembalian_barang">
+                        <i class="fas fa-fw fa-stamp"></i>
+                        <span>Pengembalian Barang</span></a>
+                </li>
+            <?php elseif(session()->get('userdata')->role == 'Pengurus Peralatan Pengeboran / Survei Explorasi' || session()->get('userdata')->role == 'Ketua Tim Kelompok Kerja') : ?>
+                <div class="sidebar-heading">
+                    Transaksi
+                </div>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="/pengembalian_barang">
+                        <i class="fas fa-fw fa-stamp"></i>
+                        <span>Pengembalian Barang</span></a>
+                </li>
+            <?php endif; ?>
+
+            
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

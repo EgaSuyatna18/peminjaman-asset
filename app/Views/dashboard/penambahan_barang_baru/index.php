@@ -6,9 +6,11 @@
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex justify-content-between">
                         <h1 class="m-0 font-weight-bold text-primary">Data Table <?= $title ?></h1>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#tambahModal">
-                            <i class="fa fa-plus"></i>
-                        </button>
+                        <?php if(session()->get('userdata')->role != 'Ketua Bagian Umum' && session()->get('userdata')->role != 'Kepala PSDMBP') : ?>
+                          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#tambahModal">
+                              <i class="fa fa-plus"></i>
+                          </button>
+                        <?php endif; ?>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -45,16 +47,20 @@
                                             <td><a href="<?= $penambahan_barang_baru->kak ?>" target="_blank">Lihat Data</a></td>
                                             <td><?= $penambahan_barang_baru->status ?></td>
                                             <td>
-                                              <a href="/penambahan_barang_baru/<?= $penambahan_barang_baru->penambahan_barang_baru_id ?>/diterima" class="btn btn-success"><i class="fa fa-check"></i></a>
-                                              <a href="/penambahan_barang_baru/<?= $penambahan_barang_baru->penambahan_barang_baru_id ?>/ditolak" class="btn btn-danger"><i class="fa fa-times"></i></a>
-                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ubahModal"
-                                                    onclick="setData('<?= $penambahan_barang_baru->penambahan_barang_baru_id ?>', '<?= $penambahan_barang_baru->tim_id ?>', '<?= $penambahan_barang_baru->nama_pengusul ?>')">
-                                                    <i class="fa fa-edit"></i>
-                                                </button>
-                                                <form action="/penambahan_barang_baru/<?= $penambahan_barang_baru->penambahan_barang_baru_id ?>" method="post" class="d-inline">
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Hapus Data?')"><i class="fa fa-trash"></i></button>
-                                                </form>
+                                              <?php if(session()->get('userdata')->role == 'Ketua Bagian Umum' || session()->get('userdata')->role == 'Kepala PSDMBP') : ?>
+                                                  <p class="text-muted">Aksi Tidak Mendapat Izin</p>
+                                              <?php else : ?>
+                                                <a href="/penambahan_barang_baru/<?= $penambahan_barang_baru->penambahan_barang_baru_id ?>/diterima" class="btn btn-success"><i class="fa fa-check"></i></a>
+                                                <a href="/penambahan_barang_baru/<?= $penambahan_barang_baru->penambahan_barang_baru_id ?>/ditolak" class="btn btn-danger"><i class="fa fa-times"></i></a>
+                                                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ubahModal"
+                                                      onclick="setData('<?= $penambahan_barang_baru->penambahan_barang_baru_id ?>', '<?= $penambahan_barang_baru->tim_id ?>', '<?= $penambahan_barang_baru->nama_pengusul ?>')">
+                                                      <i class="fa fa-edit"></i>
+                                                  </button>
+                                                  <form action="/penambahan_barang_baru/<?= $penambahan_barang_baru->penambahan_barang_baru_id ?>" method="post" class="d-inline">
+                                                      <input type="hidden" name="_method" value="DELETE">
+                                                      <button type="submit" class="btn btn-danger" onclick="return confirm('Hapus Data?')"><i class="fa fa-trash"></i></button>
+                                                  </form>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach ?>

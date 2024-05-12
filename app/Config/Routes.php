@@ -38,3 +38,8 @@ $routes->get('/pengembalian_barang', 'PengembalianBarang::index');
 $routes->post('/pengembalian_barang', 'PengembalianBarang::store');
 $routes->put('/pengembalian_barang/(:num)', 'PengembalianBarang::update/$1');
 $routes->delete('/pengembalian_barang/(:num)', 'PengembalianBarang::destroy/$1');
+
+$routes->get('/barang', 'Barang::index');
+$routes->post('/barang', 'Barang::store');
+$routes->put('/barang/(:num)', 'Barang::update/$1');
+$routes->delete('/barang/(:num)', 'Barang::destroy/$1');

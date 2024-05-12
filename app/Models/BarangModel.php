@@ -43,4 +43,35 @@ class BarangModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function tambah($data) {
+        try {
+            $builder = $this->db->table('barang');
+            $builder->set($data);
+            return $builder->insert();
+        } catch (DatabaseException $e) {
+            return false;
+        }
+    }
+
+    function hapus($kode_barang) {
+        try {
+            $builder = $this->db->table('barang');
+            $builder->where('kode_barang', $kode_barang);
+            return $builder->delete();
+        } catch (DatabaseException $e) {
+            return false;
+        }
+    }
+
+    function ubah($kode_barang, $data) {
+        try {
+            $builder = $this->db->table('barang');
+            $builder->set($data);
+            $builder->where('kode_barang', $kode_barang);
+            return $builder->update();
+        } catch (DatabaseException $e) {
+            return false;
+        }
+    }
 }

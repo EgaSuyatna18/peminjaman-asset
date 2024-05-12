@@ -32,7 +32,7 @@ class AkunSeeder extends Seeder
             [
                 'role' => 'Ketua Tim Kelompok Kerja',
                 'nama' => 'Ketua Tim',
-                'username' => 'ketuatiim',
+                'username' => 'ketuatim',
                 'password' => '123'
             ],
             [
